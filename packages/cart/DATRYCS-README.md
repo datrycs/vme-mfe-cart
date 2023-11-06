@@ -1,3 +1,9 @@
 # How to deploy on vercel?
 
-Run `vercel build` followed by `vercel deploy --prebuilt` or `vercel deploy --prebuilt --prod`
+Production:
+
+Run `vercel build --prod` followed by `vercel deploy --prebuilt --prod`
+
+Preview/Development:
+
+Run `vercel build` followed by `vercel deploy --prebuilt`
