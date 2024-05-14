@@ -31,7 +31,7 @@ const [token, setToken] = useState<string | null>(null);
           quantity ? (
               <button className="w-full">
                 <a
-                  href={`https://checkout.trendhopper.de/${order?.id}?accessToken=${token}`}
+                  href={`${import.meta.env.PUBLIC_CHECKOUT_URL}/${order?.id}?accessToken=${token}`}
                   target={isEmbedded() ? "_top" : undefined}
                   className={
                     "button-base bg-primary text-contrast block rounded-md py-3 px-3"
