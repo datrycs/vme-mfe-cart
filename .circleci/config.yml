@@ -1,11 +1,12 @@
 version: 2.1
 
 orbs:
-  aws-s3: circleci/aws-s3@3.1.1
+  aws-cli: circleci/aws-cli@4.1.2
+  aws-s3: circleci/aws-s3@4.0.0
 
 image: &image
   docker:
-    - image: cimg/node:18.7.0
+    - image: cimg/node:20.11.0
   resource_class: medium+
 
 setup: &setup
@@ -22,7 +23,10 @@ jobs:
       - checkout
       - <<: *setup
       - run:
-          name: Test 
+          name: Audit
+          command: pnpm audit || exit 0
+      - run:
+          name: Test
           command: pnpm test
   build:
     <<: *image
@@ -34,14 +38,14 @@ jobs:
       - run:
           name: Build
           command: pnpm build
+      - aws-cli/setup:
+          aws_access_key_id: AWS_ACCESS_KEY
+          aws_secret_access_key: AWS_SECRET_ACCESS_KEY
       - aws-s3/sync:
-          aws-access-key-id: AWS_ACCESS_KEY
-          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
           from: packages/cart/build
           to: "s3://$S3_ASSETS_BUCKET/team/fe-static-apps/$PUBLIC_PROJECT_PATH/<<pipeline.git.tag>>"
 
 workflows:
-
   run-tests:
     jobs:
       - test:
@@ -49,7 +53,7 @@ workflows:
           filters:
             tags:
               ignore: /v.*/
-  
+
   test-build-and-push:
     jobs:
       - test:

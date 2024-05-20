@@ -5,11 +5,13 @@ import {
   LineItem,
   TLineItem,
   LineItemsEmpty,
+  useOrderContainer,
 } from "@commercelayer/react-components"
 import { FC } from "react"
 import { useTranslation } from "react-i18next"
 
 import { ButtonRemoveItem } from "./ButtonRemoveItem"
+import { LineItemFrequency } from "./LineItemFrequency"
 import { LineItemOptions } from "./LineItemOptions"
 import { QuantitySelector } from "./QuantitySelector"
 
@@ -25,6 +27,7 @@ type Props = {
 export const Summary: FC<Props> = ({ listTypes }) => {
   const { t } = useTranslation()
   const { settings } = useSettings()
+  const { order } = useOrderContainer()
 
   return (
     <>
@@ -58,7 +61,12 @@ export const Summary: FC<Props> = ({ listTypes }) => {
 
               <div className="flex justify-between items-center mt-auto">
                 {type === "gift_cards" ? <div /> : <QuantitySelector />}
+
                 <LineItemAmount className="text-lg font-semibold" />
+              </div>
+
+              <div className="flex justify-end">
+                <LineItemFrequency />
               </div>
             </div>
           </div>
@@ -68,7 +76,7 @@ export const Summary: FC<Props> = ({ listTypes }) => {
       {/* Empty cart */}
       <LineItemsEmpty>
         {({ quantity }) => {
-          if (quantity === undefined) {
+          if (quantity === undefined || order === undefined) {
             return <LineItemsSkeleton />
           }
 
