@@ -1,4 +1,9 @@
-import { LineItemsCount } from "@commercelayer/react-components"
+import {
+  LineItemsCount,
+  PaymentMethod,
+  PaymentMethodsContainer,
+  PaymentSource,
+} from "@commercelayer/react-components"
 import useOrderContainer from "@commercelayer/react-components/hooks/useOrderContainer"
 import { useTranslation } from "react-i18next"
 
@@ -16,6 +21,13 @@ export const ButtonCheckout = () => {
 
   return (
     <>
+      <div key={order?.total_amount_cents}>
+        <PaymentMethodsContainer>
+          <PaymentMethod expressPayments className="mb-4" loader={<div />}>
+            <PaymentSource loader={<div />} />
+          </PaymentMethod>
+        </PaymentMethodsContainer>
+      </div>
       <LineItemsCount>
         {({ quantity }) =>
           quantity ? (

@@ -2,7 +2,7 @@
 
 The Commerce Layer Cart application (React) provides you with a production-ready shopping cart powered by Commerce Layer APIs. You can fork this repository and deploy it to any hosting service or use it as a reference application to build your own. A hosted version is also available.
 
-![Commerce Layer Cart demo](https://user-images.githubusercontent.com/30926550/207573087-39ed2ad5-1ab6-49ef-9bb5-013452b06d7f.png)
+![Commerce Layer Cart demo](https://github.com/commercelayer/mfe-cart/assets/55532244/aae6ac71-f37d-40c5-9c6b-30fa3dc8a262)
 
 ## What is Commerce Layer?
 
@@ -13,7 +13,9 @@ The Commerce Layer Cart application (React) provides you with a production-ready
 - [Getting started](#getting-started)
 - [Hosted version](#hosted-version)
 - [Embedding the cart](#embedding-the-cart)
+- [Express checkout](#express-checkout)
 - [Contributors guide](#contributors-guide)
+- [Running on Windows](#running-on-windows)
 - [Help and support](#need-help)
 - [License](#license)
 
@@ -32,9 +34,9 @@ window.clAppConfig = {
 }
 ```
 
-3. Deploy the forked repository to your preferred hosting service or host it yourself. You can deploy with one click below:
+3. Deploy the forked repository to your preferred hosting service. You can deploy with one click below:
 
-[<img src="https://www.netlify.com/img/deploy/button.svg" alt="Deploy to Netlify" height="35">](https://app.netlify.com/start/deploy?repository=https://github.com/commercelayer/mfe-cart) [<img src="https://vercel.com/button" alt="Deploy to Vercel" height="35">](https://vercel.com/new/clone?repository-url=https://github.com/commercelayer/mfe-cart) [<img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy to Heroku" height="35">](https://heroku.com/deploy?template=https://github.com/commercelayer/mfe-cart) [<img src="https://www.deploytodo.com/do-btn-blue.svg" alt="Deploy to Digital Ocean" height="35">](https://cloud.digitalocean.com/apps/new?repo=https://github.com/commercelayer/mfe-cart/tree/master)
+[<img src="https://www.netlify.com/img/deploy/button.svg" alt="Deploy to Netlify" height="35">](https://app.netlify.com/start/deploy?repository=https://github.com/commercelayer/mfe-cart#PUBLIC_SELF_HOSTED_SLUG) [<img src="https://vercel.com/button" alt="Deploy to Vercel" height="35">](https://vercel.com/new/clone?repository-url=https://github.com/commercelayer/mfe-cart&build-command=pnpm%20build&output-directory=packages%2Fcart%2Fbuild&env=PUBLIC_SELF_HOSTED_SLUG&envDescription=your%20organization%20slug) 
 
 4. Build your sales channel with your favorite technologies and frameworks by leveraging our [developer resources](https://commercelayer.io/developers) and [documentation](https://docs.commercelayer.io/api).
 
@@ -74,6 +76,10 @@ The cart can be embedded in your application or website by loading the hosted UR
 
 > You can either set your iFrame to a fixed height or keep it responsive using the [iFrame Resizer](https://github.com/davidjbradshaw/iframe-resizer) library — the Cart app already includes the `iframeResizer.contentWindow` scripts, so you only need to add it to your parent app.
 
+## Express checkout
+
+The cart supports express checkout buttons for both Apple Pay and Google Pay via Stripe. To enable this feature, you need to activate the `auto_payments` option on your Commerce Layer [Stripe gateway](https://docs.commercelayer.io/core/v/api-reference/stripe_gateways) and configure the necessary settings in your Stripe dashboard.
+
 ## Contributors guide
 
 1. Fork [this repository](https://github.com/commercelayer/mfe-cart) (you can learn how to do this [here](https://help.github.com/articles/fork-a-repo)).
@@ -98,6 +104,13 @@ pnpm dev
 6. Make your changes and create a pull request ([learn how to do this](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)).
 
 7. Someone will attend to your pull request and provide some feedback.
+
+## Running on Windows
+When working on Microsoft Windows, we suggest to use the PowerShell terminal or any alternative shell with the ability to run scripts as admin user.
+
+This is required to install `pnpm` following the instruction [here](https://pnpm.io/installation#on-windows).
+
+Once done, install globally the `touch-cli` package by running `pnpm add -g touch-cli` in order to successfully execute the `prepare` script.
 
 ## Need help?
 
