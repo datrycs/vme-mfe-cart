@@ -3,6 +3,7 @@ import {
   PaymentMethod,
   PaymentMethodsContainer,
   PaymentSource,
+  Errors,
 } from "@commercelayer/react-components"
 import useOrderContainer from "@commercelayer/react-components/hooks/useOrderContainer"
 import { useTranslation } from "react-i18next"
@@ -28,6 +29,20 @@ export const ButtonCheckout = () => {
           </PaymentMethod>
         </PaymentMethodsContainer>
       </div>
+
+      <Errors
+        resource="line_items"
+        className="block text-xs text-red-400 mb-4"
+        messages={[
+          {
+            code: "VALIDATION_ERROR",
+            resource: "line_items",
+            field: "quantity",
+            message: t("general.quantityNotAvailable"),
+          },
+        ]}
+      />
+
       <LineItemsCount>
         {({ quantity }) =>
           quantity ? (
