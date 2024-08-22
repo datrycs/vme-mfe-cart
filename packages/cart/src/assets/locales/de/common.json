@@ -32,7 +32,9 @@
       "six-months": "Every six months",
       "six-month": "Every six months",
       "yearly": "Yearly"
-    }
+    },
+    "availability": "Verfügbarkeit",
+    "days": "Tag(e)"
   },
   "couponOrGift": {
     "label": "Rabattcode vorhanden?",

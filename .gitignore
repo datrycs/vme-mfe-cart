@@ -48,3 +48,6 @@ yarn-error.log*
 
 # App
 packages/*/public/config.local.js
+
+# IDE
+/.idea

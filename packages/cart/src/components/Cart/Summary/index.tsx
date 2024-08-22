@@ -1,4 +1,6 @@
 import {
+  AvailabilityContainer,
+  AvailabilityTemplate,
   LineItemImage,
   LineItemName,
   LineItemAmount,
@@ -56,6 +58,26 @@ export const Summary: FC<Props> = ({ listTypes }) => {
                     {t("general.price")}:
                   </div>
                   <LineItemAmount type="unit" />
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <div className="flex gap-1 text-sm">
+                  <div className="text-gray-400 font-semibold">
+                    {t("item.availability")}:
+                  </div>
+                  <AvailabilityContainer>
+                    <AvailabilityTemplate timeFormat={"days"}>
+                      {(childrenProps) => {
+                        return (
+                          <span>
+                            {childrenProps.min?.days}-{childrenProps.max?.days}{" "}
+                            {t("item.days")}
+                          </span>
+                        )
+                      }}
+                    </AvailabilityTemplate>
+                  </AvailabilityContainer>
                 </div>
               </div>
 

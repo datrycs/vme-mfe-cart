@@ -32,7 +32,9 @@
             "six-months": "Co sześć miesięcy",
             "six-month": "Co sześć miesięcy",
             "yearly": "Co roku"
-        }
+        },
+        "availability": "Availability",
+        "days": "day(s)"
     },
     "couponOrGift": {
         "label": "Masz kod promocyjny?",
