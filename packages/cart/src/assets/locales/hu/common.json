@@ -32,7 +32,9 @@
             "six-months": "Félévente",
             "six-month": "Félévente",
             "yearly": "Évente"
-        }
+        },
+        "availability": "Availability",
+        "days": "day(s)"
     },
     "couponOrGift": {
         "label": "Rendelkezik promóciós kóddal?",
