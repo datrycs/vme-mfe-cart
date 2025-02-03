@@ -29,6 +29,10 @@ export const Summary: FC<Props> = ({ listTypes }) => {
   const { settings } = useSettings()
   const { order } = useOrderContainer()
 
+  const convertHoursToDays = (hours: number) => {
+    return Math.ceil(hours / 24)
+  }
+
   return (
     <>
       {listTypes.map((type) => (
@@ -57,6 +61,30 @@ export const Summary: FC<Props> = ({ listTypes }) => {
                   </div>
                   <LineItemAmount type="unit" />
                 </div>
+
+                {/* Display Delivery Lead Time */}
+                {order?.line_items &&
+                  order?.line_items[0]?.metadata?.deliveryLeadTime && (
+                    <div className="flex gap-1 text-sm mt-1">
+                      <div className="text-gray-400 font-semibold">
+                        {t("item.availability")}:
+                      </div>
+                      <div>
+                        {(() => {
+                          const deliveryLeadTime = JSON.parse(
+                            order.line_items[0].metadata.deliveryLeadTime
+                          )
+                          const minDays = convertHoursToDays(
+                            deliveryLeadTime.minHours
+                          )
+                          const maxDays = convertHoursToDays(
+                            deliveryLeadTime.maxHours
+                          )
+                          return `${minDays}-${maxDays} ${t("item.days")}`
+                        })()}
+                      </div>
+                    </div>
+                  )}
               </div>
 
               <div className="flex justify-between items-center mt-auto">

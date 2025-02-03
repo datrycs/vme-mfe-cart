@@ -32,7 +32,9 @@
             "six-months": "Ogni sei mesi",
             "six-month": "Ogni sei mesi",
             "yearly": "Annuale"
-        }
+        },
+        "availability": "Availability",
+        "days": "day(s)"
     },
     "couponOrGift": {
         "label": "Hai un codice da usare?",
