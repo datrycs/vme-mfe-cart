@@ -1,16 +1,61 @@
 import { LineItemRemoveLink } from "@commercelayer/react-components"
-import { FC } from "react"
+import { FC, MouseEvent } from "react"
 import { useTranslation } from "react-i18next"
 
-export const ButtonRemoveItem: FC = () => {
+type Props = {
+  lineItem: {
+    sku_code?: string | null
+    name?: string | null
+    quantity?: number
+    unit_amount_float?: number | null
+    item_type?: string | null
+    item?: {
+      name?: string | null
+    }
+  }
+}
+
+declare global {
+  interface Window {
+    dataLayer: Record<string, unknown>[]
+  }
+}
+
+export const ButtonRemoveItem: FC<Props> = ({ lineItem }) => {
   const { t } = useTranslation()
   const title = t("general.remove")
+
+  const handleRemoveFromCart = () => {
+    if (typeof window !== "undefined") {
+      window.dataLayer = window.dataLayer || []
+      window.dataLayer.push({
+        event: "remove_from_cart",
+        ecommerce: {
+          currency: "EUR",
+          value: (lineItem.unit_amount_float ?? 0) * (lineItem.quantity ?? 1),
+          items: [
+            {
+              item_id: lineItem.sku_code ?? "unknown",
+              item_name:
+                lineItem.name ?? lineItem.item?.name ?? "Unnamed product",
+              price: lineItem.unit_amount_float ?? 0,
+              quantity: lineItem.quantity ?? 1,
+              item_category: lineItem.item_type ?? "product",
+            },
+          ],
+        },
+      })
+    }
+  }
 
   return (
     <LineItemRemoveLink>
       {({ handleRemove }) => (
         <a
-          onClick={handleRemove}
+          onClick={(event: MouseEvent<HTMLAnchorElement>) => {
+            handleRemoveFromCart()
+            handleRemove(event)
+          }}
           className="cursor-pointer hover:text-red-500"
           title={title}
           data-test-id="button-remove-item"

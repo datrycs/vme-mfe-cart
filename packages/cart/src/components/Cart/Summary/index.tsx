@@ -33,75 +33,77 @@ export const Summary: FC<Props> = ({ listTypes }) => {
     return Math.ceil(hours / 24)
   }
 
+  const lineItems = order?.line_items || []
+
   return (
     <>
-      {listTypes.map((type) => (
-        <LineItem key={type} type={type}>
-          <div
-            className="flex gap-5 pb-8 mb-8 border-b border-b-gray-300"
-            data-test-id={`line-item-${type}`}
-          >
-            <LineItemImage
-              width={170}
-              className="w-1/4 self-start md:self-center max-h-32 object-contain"
-            />
+      {listTypes.map((type) =>
+        lineItems
+          .filter((item) => item.item_type === type)
+          .map((item) => (
+            <LineItem key={item.id} type={type}>
+              <div
+                className="flex gap-5 pb-8 mb-8 border-b border-b-gray-300"
+                data-test-id={`line-item-${type}`}
+              >
+                <LineItemImage
+                  width={170}
+                  className="w-1/4 self-start md:self-center max-h-32 object-contain"
+                />
 
-            <div className="flex-1 flex flex-col min-h-[150px]">
-              <div className="flex justify-between items-center gap-1">
-                <LineItemName className="font-bold" />
-                <ButtonRemoveItem />
-              </div>
-
-              <LineItemOptions />
-
-              <div className="pt-2">
-                <div className="flex gap-1 text-sm">
-                  <div className="text-gray-400 font-semibold">
-                    {t("general.price")}:
+                <div className="flex-1 flex flex-col min-h-[150px]">
+                  <div className="flex justify-between items-center gap-1">
+                    <LineItemName className="font-bold" />
+                    <ButtonRemoveItem lineItem={item as any} />
                   </div>
-                  <LineItemAmount type="unit" />
-                </div>
 
-                {/* Display Delivery Lead Time */}
-                {order?.line_items &&
-                  order?.line_items[0]?.metadata?.deliveryLeadTime && (
-                    <div className="flex gap-1 text-sm mt-1">
+                  <LineItemOptions />
+
+                  <div className="pt-2">
+                    <div className="flex gap-1 text-sm">
                       <div className="text-gray-400 font-semibold">
-                        {t("item.availability")}:
+                        {t("general.price")}:
                       </div>
-                      <div>
-                        {(() => {
-                          const deliveryLeadTime = JSON.parse(
-                            order.line_items[0].metadata.deliveryLeadTime
-                          )
-                          const minDays = convertHoursToDays(
-                            deliveryLeadTime.minHours
-                          )
-                          const maxDays = convertHoursToDays(
-                            deliveryLeadTime.maxHours
-                          )
-                          return `${minDays}-${maxDays} ${t("item.days")}`
-                        })()}
-                      </div>
+                      <LineItemAmount type="unit" />
                     </div>
-                  )}
+
+                    {item.metadata?.deliveryLeadTime && (
+                      <div className="flex gap-1 text-sm mt-1">
+                        <div className="text-gray-400 font-semibold">
+                          {t("item.availability")}:
+                        </div>
+                        <div>
+                          {(() => {
+                            const deliveryLeadTime = JSON.parse(
+                              item.metadata.deliveryLeadTime
+                            )
+                            const minDays = convertHoursToDays(
+                              deliveryLeadTime.minHours
+                            )
+                            const maxDays = convertHoursToDays(
+                              deliveryLeadTime.maxHours
+                            )
+                            return `${minDays}-${maxDays} ${t("item.days")}`
+                          })()}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex justify-between items-center mt-auto">
+                    {type === "gift_cards" ? <div /> : <QuantitySelector />}
+                    <LineItemAmount className="text-lg font-semibold" />
+                  </div>
+
+                  <div className="flex justify-end">
+                    <LineItemFrequency />
+                  </div>
+                </div>
               </div>
+            </LineItem>
+          ))
+      )}
 
-              <div className="flex justify-between items-center mt-auto">
-                {type === "gift_cards" ? <div /> : <QuantitySelector />}
-
-                <LineItemAmount className="text-lg font-semibold" />
-              </div>
-
-              <div className="flex justify-end">
-                <LineItemFrequency />
-              </div>
-            </div>
-          </div>
-        </LineItem>
-      ))}
-
-      {/* Empty cart */}
       <LineItemsEmpty>
         {({ quantity }) => {
           if (quantity === undefined || order === undefined) {
@@ -116,7 +118,6 @@ export const Summary: FC<Props> = ({ listTypes }) => {
         }}
       </LineItemsEmpty>
 
-      {/* Return Url */}
       {settings.isValid && settings.returnUrl ? (
         <div className="pt-2 pb-8">
           <a
