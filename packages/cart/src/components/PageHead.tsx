@@ -19,6 +19,13 @@ export const PageHead: FC<Props> = ({ faviconUrl, title }) => {
     <Helmet>
       <title>{title || t("general.title")}</title>
       <link rel="icon" href={faviconUrl || defaultSettings.faviconUrl} />
+      <script
+        id="Cookiebot"
+        src="https://consent.cookiebot.com/uc.js"
+        data-cbid={`${import.meta.env.PUBLIC_COOKIEBOT_ID}`}
+        data-blockingmode="auto"
+        type="text/javascript"
+      ></script>
     </Helmet>
   )
 }
